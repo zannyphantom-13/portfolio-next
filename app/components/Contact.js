@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function Contact() {
   const socials = [
-    { href: 'mailto:zannyphanton013@gmail.com', icon: 'fas fa-envelope', title: 'Email' },
+    { href: 'mailto:hazytarzan12@gmail.com', icon: 'fas fa-envelope', title: 'Email' },
     { href: 'https://github.com/zannyphantom-13', icon: 'fab fa-github', title: 'GitHub', external: true },
     { href: '#', icon: 'fab fa-linkedin', title: 'LinkedIn' },
     { href: 'https://x.com/Zannyphantom013', icon: 'fab fa-twitter', title: 'X / Twitter', external: true },
@@ -30,7 +30,7 @@ export default function Contact() {
           </motion.div>
 
           <motion.a
-            href="mailto:zannyphanton013@gmail.com"
+            href="mailto:hazytarzan12@gmail.com"
             className="contact-email-link"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -38,7 +38,7 @@ export default function Contact() {
             whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(124, 58, 237, 0.4)', borderColor: 'var(--primary-color)' }}
             transition={{ type: 'spring', stiffness: 300 }}
           >
-            <i className="fas fa-envelope" /> zannyphanton013@gmail.com
+            <i className="fas fa-envelope" /> hazytarzan12@gmail.com
           </motion.a>
 
           <motion.div 
