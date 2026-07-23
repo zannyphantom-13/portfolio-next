@@ -48,7 +48,7 @@ function AdminPanel({ pendingData, onClose, onAction }) {
 
   if (!pendingData.length) {
     return (
-      <div className="admin-panel">
+      <div id="admin-panel" className="admin-panel">
         <h4>Pending Testimonials</h4>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>No pending testimonials.</p>
       </div>
@@ -56,7 +56,7 @@ function AdminPanel({ pendingData, onClose, onAction }) {
   }
 
   return (
-    <div className="admin-panel">
+    <div id="admin-panel" className="admin-panel">
       <h4>Pending Testimonials</h4>
       <div style={{ display: 'flex', gap: '6px', marginBottom: '0.75rem', flexWrap: 'wrap', alignItems: 'center' }}>
         <label style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#aaa', fontSize: '0.8rem', cursor: 'pointer' }}>

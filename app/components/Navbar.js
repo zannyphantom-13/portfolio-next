@@ -75,9 +75,10 @@ export default function Navbar({ isAdmin, adminBellProps }) {
           {/* Admin Bell */}
           {isAdmin && adminBellProps && (
             <div
+              id="admin-bell"
               className="admin-bell"
               onClick={adminBellProps.onToggle}
-              style={{ display: 'flex', alignItems: 'center' }}
+              style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
             >
               <i className="fas fa-bell" />
               {adminBellProps.count > 0 && (

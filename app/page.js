@@ -21,8 +21,9 @@ export default function Home() {
   // Bell ring effect listener
   useEffect(() => {
     const handler = () => {
-      if (bellRef.current) {
-        const icon = bellRef.current.querySelector('i');
+      const bell = document.getElementById('admin-bell');
+      if (bell) {
+        const icon = bell.querySelector('i');
         if (icon) {
           icon.classList.add('bell-ring');
           setTimeout(() => icon.classList.remove('bell-ring'), 600);
@@ -36,12 +37,17 @@ export default function Home() {
   // Close panel on outside click
   useEffect(() => {
     const handleClick = (e) => {
-      if (bellRef.current && !bellRef.current.contains(e.target)) {
+      const bell = document.getElementById('admin-bell');
+      const panel = document.getElementById('admin-panel');
+      if (
+        bell && !bell.contains(e.target) &&
+        panel && !panel.contains(e.target)
+      ) {
         setPanelOpen(false);
       }
     };
-    document.addEventListener('click', handleClick);
-    return () => document.removeEventListener('click', handleClick);
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
   const handleAdminChange = useCallback((state) => {
@@ -52,7 +58,6 @@ export default function Home() {
     ? {
         count: adminState.count,
         onToggle: () => setPanelOpen((p) => !p),
-        ref: bellRef,
       }
     : null;
 
