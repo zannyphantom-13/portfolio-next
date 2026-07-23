@@ -37,7 +37,7 @@ export default function About() {
             transition={{ duration: 0.6 }}
           >
             <p>
-              I&apos;m <span>Hassan</span>, a passionate freelance web developer based in Nigeria.
+              I&apos;m <span>Zan the dev</span>, a passionate freelance web developer based in Nigeria.
               I care deeply about the end user — my real satisfaction comes from building software
               that feels natural, looks great, and actually works for the people using it.
             </p>

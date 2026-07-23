@@ -85,7 +85,7 @@ export default function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
         >
-          Hassan
+          Zan the dev
         </motion.h1>
         <motion.div 
           className="role-wrapper"
@@ -152,7 +152,7 @@ export default function Hero() {
         <div className="profile-placeholder">
           <Image
             src="/profile.png"
-            alt="Hassan"
+            alt="Zan the dev"
             width={280}
             height={280}
             style={{ objectFit: 'cover', width: '100%', height: '100%' }}

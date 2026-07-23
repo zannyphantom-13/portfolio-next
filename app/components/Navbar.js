@@ -44,7 +44,7 @@ export default function Navbar({ isAdmin, adminBellProps }) {
     <>
       <header style={scrolled ? { boxShadow: '0 4px 30px rgba(0,0,0,0.4)' } : {}}>
         <nav className="navbar">
-          <div className="logo">Hassan.</div>
+          <div className="logo">Zan the dev.</div>
 
           <ul className={`nav-links${menuOpen ? ' active' : ''}`}>
             {navItems.map((item) => (
