@@ -1344,3 +1344,4 @@ footer .accent { color: var(--primary-light); }
   .section-title { font-size: 1.75rem; }
   .section-header { margin-bottom: 2.5rem; }
 }
+@media (pointer: fine) { body, a, button, input, textarea, select { cursor: none !important; } }

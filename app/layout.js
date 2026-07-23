@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
+import CustomCursor from './components/CustomCursor';
 
 const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700', '800'] });
 
@@ -26,7 +27,10 @@ export default function RootLayout({ children }) {
           referrerPolicy="no-referrer"
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <CustomCursor />
+        {children}
+      </body>
     </html>
   );
 }

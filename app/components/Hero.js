@@ -1,7 +1,34 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, useInView, animate } from 'framer-motion';
+
+function Counter({ from, to, label }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-50px' });
+
+  useEffect(() => {
+    if (inView) {
+      const controls = animate(from, to, {
+        duration: 2.5,
+        ease: 'easeOut',
+        onUpdate(value) {
+          if (ref.current) {
+            ref.current.textContent = Math.round(value) + '+';
+          }
+        }
+      });
+      return () => controls.stop();
+    }
+  }, [from, to, inView]);
+
+  return (
+    <div className="stat-item">
+      <span className="stat-number" ref={ref}>{from}+</span>
+      <span className="stat-label">{label}</span>
+    </div>
+  );
+}
 
 const roles = ['Full Stack Developer', 'UI/UX Builder', 'Freelance Dev', 'React Specialist'];
 
@@ -41,31 +68,7 @@ export default function Hero() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Animated counters
-  useEffect(() => {
-    const counters = document.querySelectorAll('.stat-number[data-count]');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const target = parseInt(entry.target.dataset.count, 10);
-          let current = 0;
-          const step = Math.ceil(target / 40);
-          const interval = setInterval(() => {
-            current += step;
-            if (current >= target) {
-              entry.target.textContent = target + '+';
-              clearInterval(interval);
-            } else {
-              entry.target.textContent = current + '+';
-            }
-          }, 40);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.5 });
-    counters.forEach((c) => observer.observe(c));
-    return () => observer.disconnect();
-  }, []);
+  // Counters now handled by Framer Motion useInView
 
   return (
     <section id="home" className="hero">
@@ -124,18 +127,9 @@ export default function Hero() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.6 }}
         >
-          <div className="stat-item">
-            <span className="stat-number" data-count="7">0+</span>
-            <span className="stat-label">Client Sites</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number" data-count="12">0+</span>
-            <span className="stat-label">Projects Built</span>
-          </div>
-          <div className="stat-item">
-            <span className="stat-number" data-count="2">0+</span>
-            <span className="stat-label">Years Experience</span>
-          </div>
+          <Counter from={0} to={7} label="Client Sites" />
+          <Counter from={0} to={12} label="Projects Built" />
+          <Counter from={0} to={2} label="Years Experience" />
         </motion.div>
       </div>
 
