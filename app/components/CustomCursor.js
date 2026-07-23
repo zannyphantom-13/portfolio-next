@@ -4,11 +4,12 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export default function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
   
-  // Spring config for the trailing outer circle
+  // Spring config for the magic lens
   const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
@@ -24,53 +25,52 @@ export default function CustomCursor() {
       cursorY.set(e.clientY);
     };
 
+    const handleMouseOver = (e) => {
+      // Check if we are hovering over an interactive element
+      if (
+        e.target.tagName.toLowerCase() === 'a' ||
+        e.target.tagName.toLowerCase() === 'button' ||
+        e.target.closest('a') ||
+        e.target.closest('button') ||
+        e.target.classList.contains('interactive')
+      ) {
+        setIsHovering(true);
+      } else {
+        setIsHovering(false);
+      }
+    };
+
     window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
+    window.addEventListener('mouseover', handleMouseOver);
+    return () => {
+      window.removeEventListener('mousemove', moveCursor);
+      window.removeEventListener('mouseover', handleMouseOver);
+    };
   }, [cursorX, cursorY]);
 
   if (!isVisible) return null;
 
   return (
-    <>
-      {/* Inner precise dot */}
-      <motion.div
-        style={{
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          x: cursorX,
-          y: cursorY,
-          translateX: '-50%',
-          translateY: '-50%',
-          width: '8px',
-          height: '8px',
-          backgroundColor: 'var(--primary-light)',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          zIndex: 99999,
-          mixBlendMode: 'difference'
-        }}
-      />
-      {/* Outer trailing ring */}
-      <motion.div
-        style={{
-          position: 'fixed',
-          left: 0,
-          top: 0,
-          x: cursorXSpring,
-          y: cursorYSpring,
-          translateX: '-50%',
-          translateY: '-50%',
-          width: '40px',
-          height: '40px',
-          border: '2px solid rgba(124, 58, 237, 0.5)',
-          backgroundColor: 'rgba(124, 58, 237, 0.1)',
-          borderRadius: '50%',
-          pointerEvents: 'none',
-          zIndex: 99998,
-          backdropFilter: 'blur(2px)'
-        }}
-      />
-    </>
+    <motion.div
+      style={{
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        x: cursorXSpring,
+        y: cursorYSpring,
+        translateX: '-50%',
+        translateY: '-50%',
+        pointerEvents: 'none',
+        zIndex: 99999,
+        mixBlendMode: 'difference' // The magic lens effect
+      }}
+      animate={{
+        width: isHovering ? 80 : 32,
+        height: isHovering ? 80 : 32,
+        backgroundColor: '#fff',
+        borderRadius: '50%',
+      }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+    />
   );
 }
