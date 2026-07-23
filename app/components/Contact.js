@@ -1,3 +1,6 @@
+'use client';
+import { motion } from 'framer-motion';
+
 export default function Contact() {
   const socials = [
     { href: 'mailto:zannyphanton013@gmail.com', icon: 'fas fa-envelope', title: 'Email' },
@@ -12,35 +15,60 @@ export default function Contact() {
     <section id="contact" className="contact">
       <div className="container">
         <div className="contact-inner">
-          <div className="section-header reveal">
+          <motion.div 
+            className="section-header"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+          >
             <span className="section-label">Get In Touch</span>
             <h2 className="section-title">Let&apos;s Work Together</h2>
             <p className="section-subtitle">
               Have a project in mind? I&apos;d love to hear about it. Drop me a message and I&apos;ll get back to you.
             </p>
-          </div>
+          </motion.div>
 
-          <a
+          <motion.a
             href="mailto:zannyphanton013@gmail.com"
-            className="contact-email-link reveal"
+            className="contact-email-link"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            whileHover={{ y: -2, boxShadow: '0 8px 24px rgba(124, 58, 237, 0.4)', borderColor: 'var(--primary-color)' }}
+            transition={{ type: 'spring', stiffness: 300 }}
           >
             <i className="fas fa-envelope" /> zannyphanton013@gmail.com
-          </a>
+          </motion.a>
 
-          <div className="social-links reveal reveal-delay-2">
+          <motion.div 
+            className="social-links"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+            }}
+          >
             {socials.map((s) => (
-              <a
+              <motion.a
                 key={s.title}
                 href={s.href}
                 className="social-icon"
                 title={s.title}
                 target={s.external ? '_blank' : undefined}
                 rel={s.external ? 'noopener noreferrer' : undefined}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+                whileHover={{ y: -4, boxShadow: '0 8px 20px rgba(124, 58, 237, 0.4)', borderColor: 'var(--primary-color)', color: '#fff', backgroundColor: 'rgba(124, 58, 237, 0.2)' }}
               >
                 <i className={s.icon} />
-              </a>
+              </motion.a>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

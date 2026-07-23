@@ -1,3 +1,6 @@
+'use client';
+import { motion } from 'framer-motion';
+
 const skills = [
   { icon: 'fab fa-html5', label: 'HTML5' },
   { icon: 'fab fa-css3-alt', label: 'CSS3' },
@@ -15,12 +18,24 @@ export default function About() {
   return (
     <section id="about" className="about">
       <div className="container">
-        <div className="section-header reveal">
+        <motion.div 
+          className="section-header"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
           <span className="section-label">Who I Am</span>
           <h2 className="section-title">About Me</h2>
-        </div>
+        </motion.div>
         <div className="about-grid">
-          <div className="about-bio reveal">
+          <motion.div 
+            className="about-bio"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+          >
             <p>
               I&apos;m <span>Hassan</span>, a passionate freelance web developer based in Nigeria.
               I care deeply about the end user — my real satisfaction comes from building software
@@ -45,19 +60,29 @@ export default function About() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="reveal reveal-delay-2">
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             <span className="skills-section-label">Tech Stack</span>
             <div className="skills-grid">
               {skills.map((s) => (
-                <div key={s.label} className="skill-item">
+                <motion.div 
+                  key={s.label} 
+                  className="skill-item"
+                  whileHover={{ y: -3, boxShadow: '0 4px 16px rgba(124, 58, 237, 0.4)', borderColor: 'var(--primary-color)' }}
+                  transition={{ type: 'spring', stiffness: 300 }}
+                >
                   <i className={s.icon} />
                   {s.label}
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

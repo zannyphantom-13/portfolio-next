@@ -2,10 +2,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getSupabaseClient } from '../../lib/supabase';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 const ADMIN_EMAIL = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
-
-
 
 function playNotificationSound() {
   try {
@@ -24,7 +23,6 @@ function playNotificationSound() {
   } catch {}
 }
 
-// ── Admin Panel ──────────────────────────────────────────────────────────────
 function AdminPanel({ pendingData, onClose, onAction }) {
   const [selected, setSelected] = useState(new Set());
 
@@ -95,7 +93,6 @@ function AdminPanel({ pendingData, onClose, onAction }) {
   );
 }
 
-// ── Main Testimonials Component ──────────────────────────────────────────────
 export default function Testimonials({ onAdminChange }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -127,7 +124,6 @@ export default function Testimonials({ onAdminChange }) {
       const hasNew = [...newIds].some((id) => !lastPendingIds.has(id));
       if (hasNew) {
         playNotificationSound();
-        // Trigger bell ring via custom event
         window.dispatchEvent(new CustomEvent('bell-ring'));
       }
     }
@@ -148,7 +144,6 @@ export default function Testimonials({ onAdminChange }) {
     await fetchApproved();
   }, [sb, loadPending, fetchApproved]);
 
-  // Auth listener
   useEffect(() => {
     if (!sb) { setLoading(false); return; }
 
@@ -177,7 +172,6 @@ export default function Testimonials({ onAdminChange }) {
     if (isAdmin) loadPending();
   }, [isAdmin, loadPending]);
 
-  // Realtime
   useEffect(() => {
     if (!sb) return;
     const channel = sb.channel('public:testimonials:' + Math.random())
@@ -232,13 +226,18 @@ export default function Testimonials({ onAdminChange }) {
   return (
     <section id="testimonials" className="testimonials">
       <div className="container">
-        <div className="section-header reveal">
+        <motion.div 
+          className="section-header"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
           <span className="section-label">Kind Words</span>
           <h2 className="section-title">Testimonials</h2>
           <p className="section-subtitle">What clients say after working with me.</p>
-        </div>
+        </motion.div>
 
-        {/* Admin panel */}
         {isAdmin && panelOpen && (
           <AdminPanel
             pendingData={pendingData}
@@ -247,8 +246,16 @@ export default function Testimonials({ onAdminChange }) {
           />
         )}
 
-        {/* Testimonials grid */}
-        <div className="testimonials-grid">
+        <motion.div 
+          className="testimonials-grid"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
+          }}
+        >
           {loading && (
             <p style={{ color: 'var(--text-muted)', gridColumn: '1/-1', textAlign: 'center' }}>
               Loading testimonials...
@@ -260,7 +267,15 @@ export default function Testimonials({ onAdminChange }) {
             </p>
           )}
           {testimonials.map((t) => (
-            <div key={t.id} className="testimonial-card">
+            <motion.div 
+              key={t.id} 
+              className="testimonial-card"
+              variants={{
+                hidden: { opacity: 0, y: 30 },
+                visible: { opacity: 1, y: 0 }
+              }}
+              whileHover={{ y: -5, boxShadow: '0 12px 30px rgba(0,0,0,0.3)', borderColor: 'rgba(124, 58, 237, 0.4)' }}
+            >
               <span className="quote-icon"><i className="fas fa-quote-left" /></span>
               <p className="testimonial-text">{t.text}</p>
               <div className="testimonial-author">
@@ -286,12 +301,16 @@ export default function Testimonials({ onAdminChange }) {
                   Delete
                 </button>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Auth */}
-        <div className="auth-section">
+        <motion.div 
+          className="auth-section"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
           {!currentUser && (
             <>
               <p style={{ color: 'var(--text-muted)', marginBottom: '1rem' }}>Sign in to leave a testimonial</p>
@@ -315,11 +334,15 @@ export default function Testimonials({ onAdminChange }) {
               </button>
             </div>
           )}
-        </div>
+        </motion.div>
 
-        {/* Submit form */}
         {currentUser && !isAdmin && (
-          <div className="add-testimonial-section">
+          <motion.div 
+            className="add-testimonial-section"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
             <form onSubmit={submitTestimonial}>
               <textarea
                 value={testimonialText}
@@ -337,7 +360,7 @@ export default function Testimonials({ onAdminChange }) {
                 <i className="fas fa-check-circle" /> Your testimonial has been submitted for approval!
               </p>
             )}
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

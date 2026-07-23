@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 const roles = ['Full Stack Developer', 'UI/UX Builder', 'Freelance Dev', 'React Specialist'];
 
@@ -69,28 +70,60 @@ export default function Hero() {
   return (
     <section id="home" className="hero">
       <div className="hero-content">
-        <div className="availability-badge">
+        <motion.div 
+          className="availability-badge"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+        >
           <span className="availability-dot" />
           Available for freelance work
-        </div>
-        <h1 className="hero-name">Hassan</h1>
-        <div className="role-wrapper">
+        </motion.div>
+        <motion.h1 
+          className="hero-name"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+        >
+          Hassan
+        </motion.h1>
+        <motion.div 
+          className="role-wrapper"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+        >
           <span className="role-prefix">I&apos;m a </span>
           <span className="role-typed" ref={typedRef} />
-        </div>
-        <p className="hero-text">
+        </motion.div>
+        <motion.p 
+          className="hero-text"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.4 }}
+        >
           I design and build fast, modern websites for businesses that want to stand out — from
           e-commerce stores to corporate platforms, all crafted with care and precision.
-        </p>
-        <div className="hero-actions">
+        </motion.p>
+        <motion.div 
+          className="hero-actions"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+        >
           <a href="#client-work" className="btn primary-btn" onClick={(e) => { e.preventDefault(); document.querySelector('#client-work')?.scrollIntoView({ behavior: 'smooth' }); }}>
             <i className="fas fa-briefcase" /> View Client Work
           </a>
           <a href="#projects" className="btn secondary-btn" onClick={(e) => { e.preventDefault(); document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' }); }}>
             <i className="fas fa-code" /> Personal Projects
           </a>
-        </div>
-        <div className="hero-stats">
+        </motion.div>
+        <motion.div 
+          className="hero-stats"
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+        >
           <div className="stat-item">
             <span className="stat-number" data-count="7">0+</span>
             <span className="stat-label">Client Sites</span>
@@ -103,10 +136,15 @@ export default function Hero() {
             <span className="stat-number" data-count="2">0+</span>
             <span className="stat-label">Years Experience</span>
           </div>
-        </div>
+        </motion.div>
       </div>
 
-      <div className="hero-visual">
+      <motion.div 
+        className="hero-visual"
+        initial={{ opacity: 0, scale: 0.8, filter: 'blur(10px)' }}
+        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+        transition={{ duration: 1, delay: 0.3, type: 'spring' }}
+      >
         <div className="glow-circle" />
         <div className="orbit-ring">
           <div className="orbit-dot" />
@@ -121,7 +159,7 @@ export default function Hero() {
             priority
           />
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
