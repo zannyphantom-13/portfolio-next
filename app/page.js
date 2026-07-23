@@ -68,7 +68,7 @@ export default function Home() {
         <Process />
         <Projects />
         <ClientWork />
-        <Testimonials onAdminChange={handleAdminChange} />
+        <Testimonials onAdminChange={handleAdminChange} adminPanelOpen={panelOpen} onCloseAdminPanel={() => setPanelOpen(false)} />
         <Contact />
       </main>
       <Footer />

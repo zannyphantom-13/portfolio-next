@@ -93,7 +93,7 @@ function AdminPanel({ pendingData, onClose, onAction }) {
   );
 }
 
-export default function Testimonials({ onAdminChange }) {
+export default function Testimonials({ onAdminChange, adminPanelOpen, onCloseAdminPanel }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [testimonials, setTestimonials] = useState([]);
@@ -102,7 +102,6 @@ export default function Testimonials({ onAdminChange }) {
   const [testimonialText, setTestimonialText] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [panelOpen, setPanelOpen] = useState(false);
   const [lastPendingIds, setLastPendingIds] = useState(new Set());
 
   const sb = getSupabaseClient();
@@ -238,10 +237,10 @@ export default function Testimonials({ onAdminChange }) {
           <p className="section-subtitle">What clients say after working with me.</p>
         </motion.div>
 
-        {isAdmin && panelOpen && (
+        {isAdmin && adminPanelOpen && (
           <AdminPanel
             pendingData={pendingData}
-            onClose={() => setPanelOpen(false)}
+            onClose={onCloseAdminPanel}
             onAction={handleAction}
           />
         )}
