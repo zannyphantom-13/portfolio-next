@@ -2,7 +2,6 @@ import puppeteer from 'puppeteer';
 import fs from 'fs';
 import path from 'path';
 
-// Manual definition since we can't easily import from lib/data.js in this pure Node script without transpilation
 const sites = [
   { slug: 'vista-real-estate', url: 'https://vista-real-estate.onrender.com/' },
   { slug: 'bella-cucina', url: 'https://restaurant-website-kappa-jade.vercel.app/' },
@@ -23,25 +22,73 @@ if (!fs.existsSync(outDir)) {
   fs.mkdirSync(outDir, { recursive: true });
 }
 
+async function autoScroll(page) {
+  await page.evaluate(async () => {
+    await new Promise((resolve) => {
+      let totalHeight = 0;
+      const distance = 300;
+      const timer = setInterval(() => {
+        window.scrollBy(0, distance);
+        totalHeight += distance;
+        if (totalHeight >= document.body.scrollHeight) {
+          clearInterval(timer);
+          window.scrollTo(0, 0);
+          resolve();
+        }
+      }, 100);
+    });
+  });
+  // After scrolling back to top, wait for lazy images to fully load
+  await new Promise(r => setTimeout(r, 3000));
+}
+
 (async () => {
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+
   for (const site of sites) {
     const page = await browser.newPage();
-    await page.setViewport({ width: 1280, height: 800 });
+    await page.setViewport({ width: 1440, height: 900 });
+    // Pretend to be a real browser to avoid bot detection
+    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+
     console.log(`Navigating to ${site.url}...`);
     try {
-      await page.goto(site.url, { waitUntil: 'networkidle2', timeout: 30000 });
-      // Give it a second to run animations
-      await new Promise(r => setTimeout(r, 2000));
-      
+      await page.goto(site.url, { waitUntil: 'networkidle2', timeout: 45000 });
+
+      // Dismiss any popups or cookie banners
+      try {
+        await page.keyboard.press('Escape');
+      } catch {}
+
+      // Auto-scroll to trigger lazy loading of all images
+      await autoScroll(page);
+
+      // Wait for all images to fully load
+      await page.evaluate(async () => {
+        const images = Array.from(document.images);
+        await Promise.all(
+          images
+            .filter(img => !img.complete)
+            .map(img => new Promise(resolve => {
+              img.onload = resolve;
+              img.onerror = resolve;
+            }))
+        );
+      });
+
+      // Capture only the viewport (above the fold) for a clean hero shot
       const filePath = path.join(outDir, `${site.slug}.png`);
-      await page.screenshot({ path: filePath, fullPage: true });
-      console.log(`Saved screenshot for ${site.slug}`);
+      await page.screenshot({ path: filePath, fullPage: false, clip: { x: 0, y: 0, width: 1440, height: 900 } });
+      console.log(`✅ Saved screenshot for ${site.slug}`);
     } catch (err) {
-      console.error(`Failed to screenshot ${site.slug}: ${err.message}`);
+      console.error(`❌ Failed ${site.slug}: ${err.message}`);
     }
     await page.close();
   }
+
   await browser.close();
-  console.log('Done!');
+  console.log('\nDone!');
 })();
