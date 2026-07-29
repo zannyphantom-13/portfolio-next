@@ -43,7 +43,7 @@ export default async function ProjectPage({ params }) {
         <div style={{ width: '100%', aspectRatio: '16/9', background: project.bg || '#1a1a2e', borderRadius: '16px', overflow: 'hidden', marginBottom: '4rem', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             {project.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={project.image} alt={isClient ? project.name : project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                <img src={project.image} alt={isClient ? project.name : project.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
                 <span style={{ fontSize: '4rem', fontWeight: 'bold', background: project.gradient || 'linear-gradient(135deg,#fff,#aaa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{project.monogram || 'Proj'}</span>
             )}
