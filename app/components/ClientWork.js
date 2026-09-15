@@ -51,11 +51,21 @@ export default function ClientWork() {
               <Link href={`/projects/${client.slug}`} style={{ display: 'flex', flexDirection: 'column', height: '100%', textDecoration: 'none', color: 'inherit' }}>
                 <div
                   className="client-image-wrap"
-                  style={{ background: client.bg }}
+                  style={{ background: client.bg, position: 'relative', overflow: 'hidden' }}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={client.image}
+                    alt={client.name}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.5s ease' }}
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      e.currentTarget.nextSibling.style.display = 'flex';
+                    }}
+                  />
                   <span
                     className="client-monogram"
-                    style={{ background: client.gradient }}
+                    style={{ background: client.gradient, display: 'none' }}
                   >
                     {client.monogram}
                   </span>
