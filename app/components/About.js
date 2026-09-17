@@ -18,7 +18,7 @@ export default function About() {
   return (
     <section id="about" className="about">
       <div className="container">
-        <motion.div 
+        <motion.div
           className="section-header"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -29,7 +29,7 @@ export default function About() {
           <h2 className="section-title">About Me</h2>
         </motion.div>
         <div className="about-grid">
-          <motion.div 
+          <motion.div
             className="about-bio"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -37,7 +37,7 @@ export default function About() {
             transition={{ duration: 0.6 }}
           >
             <p>
-              I&apos;m <span>Zan the dev</span>, a passionate freelance web developer based in Nigeria.
+              I&apos;m <span>Azeez Hassan</span>, a passionate freelance web developer based in Nigeria.
               I care deeply about the end user — my real satisfaction comes from building software
               that feels natural, looks great, and actually works for the people using it.
             </p>
@@ -71,8 +71,8 @@ export default function About() {
             <span className="skills-section-label">Tech Stack</span>
             <div className="skills-grid">
               {skills.map((s) => (
-                <motion.div 
-                  key={s.label} 
+                <motion.div
+                  key={s.label}
                   className="skill-item"
                   whileHover={{ y: -3, boxShadow: '0 4px 16px rgba(124, 58, 237, 0.4)', borderColor: 'var(--primary-color)' }}
                   transition={{ type: 'spring', stiffness: 300 }}
